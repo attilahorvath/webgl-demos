@@ -18,8 +18,15 @@ export default class Shader {
 
     gl.useProgram(this.program);
 
-    this.position = gl.getAttribLocation(this.program, 'position');
+    this.position = gl.getAttribLocation(this.program, 'vertexPosition');
     gl.enableVertexAttribArray(this.position);
-    gl.vertexAttribPointer(this.position, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(this.position, 3, gl.FLOAT, false,
+                           7 * Float32Array.BYTES_PER_ELEMENT, 0);
+
+    this.color = gl.getAttribLocation(this.program, 'vertexColor');
+    gl.enableVertexAttribArray(this.color);
+    gl.vertexAttribPointer(this.color, 4, gl.FLOAT, false,
+                           7 * Float32Array.BYTES_PER_ELEMENT,
+                           3 * Float32Array.BYTES_PER_ELEMENT);
   }
 }

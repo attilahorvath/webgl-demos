@@ -1,9 +1,9 @@
 export default class Triangle {
   constructor(gl) {
     const vertices = new Float32Array([
-      0.0, 0.75, 0.0,
-      -0.75, -0.75, 0.0,
-      0.75, -0.75, 0.0
+      0.0, 0.75, 0.0, 1.0, 0.0, 0.0, 1.0,
+      -0.75, -0.75, 0.0, 0.0, 1.0, 0.0, 1.0,
+      0.75, -0.75, 0.0, 0.0, 0.0, 1.0, 1.0
     ]);
 
     this.vertexBuffer = gl.createBuffer();

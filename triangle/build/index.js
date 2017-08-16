@@ -18,9 +18,9 @@ class Renderer {
   }
 }
 
-var vertexShaderSource = "attribute vec3 position;void main(void){gl_Position=vec4(position,1.0);}";
+var vertexShaderSource = "attribute vec3 vertexPosition;attribute vec4 vertexColor;varying mediump vec4 color;void main(){gl_Position=vec4(vertexPosition,1.0);color=vertexColor;}";
 
-var fragmentShaderSource = "void main(void){gl_FragColor=vec4(1.0,1.0,1.0,1.0);}";
+var fragmentShaderSource = "varying mediump vec4 color;void main(){gl_FragColor=color;}";
 
 class Shader {
   constructor(gl) {
@@ -39,18 +39,25 @@ class Shader {
 
     gl.useProgram(this.program);
 
-    this.position = gl.getAttribLocation(this.program, 'position');
+    this.position = gl.getAttribLocation(this.program, 'vertexPosition');
     gl.enableVertexAttribArray(this.position);
-    gl.vertexAttribPointer(this.position, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(this.position, 3, gl.FLOAT, false,
+                           7 * Float32Array.BYTES_PER_ELEMENT, 0);
+
+    this.color = gl.getAttribLocation(this.program, 'vertexColor');
+    gl.enableVertexAttribArray(this.color);
+    gl.vertexAttribPointer(this.color, 4, gl.FLOAT, false,
+                           7 * Float32Array.BYTES_PER_ELEMENT,
+                           3 * Float32Array.BYTES_PER_ELEMENT);
   }
 }
 
 class Triangle {
   constructor(gl) {
     const vertices = new Float32Array([
-      0.0, 0.75, 0.0,
-      -0.75, -0.75, 0.0,
-      0.75, -0.75, 0.0
+      0.0, 0.75, 0.0, 1.0, 0.0, 0.0, 1.0,
+      -0.75, -0.75, 0.0, 0.0, 1.0, 0.0, 1.0,
+      0.75, -0.75, 0.0, 0.0, 0.0, 1.0, 1.0
     ]);
 
     this.vertexBuffer = gl.createBuffer();

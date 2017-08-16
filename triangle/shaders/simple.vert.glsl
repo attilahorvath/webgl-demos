@@ -1,5 +1,9 @@
-attribute vec3 position;
+attribute vec3 vertexPosition;
+attribute vec4 vertexColor;
 
-void main(void) {
-  gl_Position = vec4(position, 1.0);
+varying mediump vec4 color;
+
+void main() {
+  gl_Position = vec4(vertexPosition, 1.0);
+  color = vertexColor;
 }
